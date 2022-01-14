@@ -45,43 +45,43 @@ const gridHelper = new THREE.GridHelper(200,50);
 
 // room
 
-const wallsTexture = new THREE.TextureLoader().load('wall/texture.png',function ( texture ) {
+// const wallsTexture = new THREE.TextureLoader().load('wall/texture.png',function ( texture ) {
 
-    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-    texture.offset.set( 0, 0 );
-    texture.repeat.set( 6, 3 );
+    // texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    // texture.offset.set( 0, 0 );
+    // texture.repeat.set( 6, 3 );
 
-} );
-const wallsNormal = new THREE.TextureLoader().load('wall/normal.png',function ( texture ) {
+// } );
+// const wallsNormal = new THREE.TextureLoader().load('wall/normal.png',function ( texture ) {
 
-    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-    texture.offset.set( 0, 0 );
-    texture.repeat.set( 6, 3 );
+    // texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    // texture.offset.set( 0, 0 );
+    // texture.repeat.set( 6, 3 );
 
-} );
+// } );
 
-const walls = new THREE.Mesh(
-	new THREE.BoxGeometry(6,2,6),
-	new THREE.MeshStandardMaterial({ 
-		color: 0xaaFFaa,
-		side: THREE.BackSide })
-	);
+// const walls = new THREE.Mesh(
+	// new THREE.BoxGeometry(6,2,6),
+	// new THREE.MeshStandardMaterial({ 
+		// color: 0xaaFFaa,
+		// side: THREE.BackSide })
+	// );
 
-walls.position.x = 0;
-walls.position.y = 1;
-walls.position.z = 0;
+// walls.position.x = 0;
+// walls.position.y = 1;
+// walls.position.z = 0;
 
 // scene.add(walls);
 
-const floor = new THREE.Mesh(
-	new THREE.BoxGeometry(10,.01,10),
-	new THREE.MeshStandardMaterial({ 
-		color: 0x222222})
-	);
+// const floor = new THREE.Mesh(
+	// new THREE.BoxGeometry(10,.01,10),
+	// new THREE.MeshStandardMaterial({ 
+		// color: 0x222222})
+	// );
 
-floor.position.x = 0;
-floor.position.y = 0;
-floor.position.z = 0;
+// floor.position.x = 0;
+// floor.position.y = 0;
+// floor.position.z = 0;
 
 // scene.add(floor);
 
@@ -120,32 +120,32 @@ function addBlock(sx,sy,sz,x,z,y= sy/2){
 //ARCADE
 
 
-const objLoader = new OBJLoader();
+// const objLoader = new OBJLoader();
 
-function createArcade(x, y ,z, rot){
-	var arcadeGeo = new THREE.BufferGeometry();
-	objLoader.load("arcade.obj", function (mesh) {
-	  // Update the existing BufferGeometry with loaded data.
-	  arcadeGeo.copy( mesh.children[0].geometry );
-	});
+// function createArcade(x, y ,z, rot){
+	// var arcadeGeo = new THREE.BufferGeometry();
+	// objLoader.load("arcade.obj", function (mesh) {
+	  // // Update the existing BufferGeometry with loaded data.
+	  // arcadeGeo.copy( mesh.children[0].geometry );
+	// });
 
-	const arcadeTexture = new THREE.TextureLoader().load('arcade/mapping.png');
-	const aoTexture = new THREE.TextureLoader().load('arcade/ao.png');
+	// const arcadeTexture = new THREE.TextureLoader().load('arcade/mapping.png');
+	// const aoTexture = new THREE.TextureLoader().load('arcade/ao.png');
 
-	const arcadeMaterial = new THREE.MeshStandardMaterial({
-		map: arcadeTexture
+	// const arcadeMaterial = new THREE.MeshStandardMaterial({
+		// map: arcadeTexture
 		
-		});
+		// });
 
-	const arcade = new THREE.Mesh(arcadeGeo,  arcadeMaterial);
+	// const arcade = new THREE.Mesh(arcadeGeo,  arcadeMaterial);
 
-	arcade.position.x = x;
-	arcade.position.y = y;
-	arcade.position.z = z;
-	arcade.rotation.y = rot;
+	// arcade.position.x = x;
+	// arcade.position.y = y;
+	// arcade.position.z = z;
+	// arcade.rotation.y = rot;
 
-	scene.add(arcade);
-}
+	// scene.add(arcade);
+// }
 
 // createArcade(3,0,-1,0);
 // createArcade(4,0,-1,0);
