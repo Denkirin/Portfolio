@@ -2,8 +2,8 @@ import './style.css'
 
 import * as THREE from 'https://cdn.skypack.dev/pin/three@v0.136.0-4Px7Kx1INqCFBN0tXUQc/mode=imports/optimized/three.js';
 
-//import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-//import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 
 import * as Table from './iceHockey.js';
 
