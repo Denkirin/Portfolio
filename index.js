@@ -1,4 +1,4 @@
-import './style.css'
+// import './style.css'
 
 import * as THREE from 'https://cdn.skypack.dev/pin/three@v0.136.0-4Px7Kx1INqCFBN0tXUQc/mode=imports/optimized/three.js';
 
