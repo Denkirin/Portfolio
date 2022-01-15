@@ -37,19 +37,19 @@ camera.lookAt(2.25,0.5,0)
 }else{
 	
 	
-	alpha = Math.PI/4
-	beta = Math.PI/2 - alpha
+	let alpha = Math.PI/4
+	let beta = Math.PI/2 - alpha
 	
-	A = utils.Vector2(1,1.2);
-	B = utils.Vector2(-2,0.6);
+	let A = utils.Vector2(1,1.2);
+	let B = utils.Vector2(-2,0.6);
 	
-	AB = B.Sub(A);
+	let AB = B.Sub(A);
 	
-	H = AB.Magnitude() / Math.sin(alpha);
+	let H = AB.Magnitude() / Math.sin(alpha);
 	
-	ABO = AB.OrthoY();
+	let ABO = AB.OrthoY();
 	
-	CamVec = ABO.Rotate(beta).Normalize().Scale(H);
+	let CamVec = ABO.Rotate(beta).Normalize().Scale(H);
 		
 	camera.position.x = 2.25;
 	camera.position.y = CamVec.y;
