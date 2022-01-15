@@ -6,11 +6,12 @@ import * as THREE from 'https://cdn.skypack.dev/pin/three@v0.136.0-4Px7Kx1INqCFB
 // import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 
 import * as Table from './iceHockey.js';
+import * as utils from './utils.js';
 
 
 const scene = new THREE.Scene();
 
-const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight,0.1, 1000);
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight,0.1, 1000);
 
 const renderer = new THREE.WebGLRenderer({
 	canvas: document.querySelector('#bg'),
@@ -32,9 +33,25 @@ if (window.mobileCheck()){
 	camera.position.z = -0.5; 
 	
 }else{
+	
+	
+	alpha = Math.PI/4
+	beta = Math.PI/2 - alpha
+	
+	A = utils.Vector2(1,1.2);
+	B = utils.Vector2(-2,0.6);
+	
+	AB = B.Sub(A);
+	
+	H = AB.Magnitude() / Math.sin(alpha);
+	
+	ABO = AB.OrthoY();
+	
+	CamVec = ABO.Rotate(beta).Normalize().Scale(H);
+		
 	camera.position.x = 2.25;
-	camera.position.y = 1.2;
-	camera.position.z = -2.2; 	
+	camera.position.y = CamVec.y;
+	camera.position.z = CamVec.x; 	
 }
 
 camera.lookAt(2.25,0.5,0)
