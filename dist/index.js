@@ -32,6 +32,8 @@ if (window.mobileCheck()){
 	camera.position.y = 2;
 	camera.position.z = -0.5; 
 	
+	
+camera.lookAt(2.25,0.5,0)
 }else{
 	
 	
@@ -51,10 +53,11 @@ if (window.mobileCheck()){
 		
 	camera.position.x = 2.25;
 	camera.position.y = CamVec.y;
-	camera.position.z = CamVec.x; 	
+	camera.position.z = CamVec.x; 
+
+camera.rotation.x = alpha/2;	
 }
 
-camera.lookAt(2.25,0.5,0)
 
 renderer.render(scene, camera);
 

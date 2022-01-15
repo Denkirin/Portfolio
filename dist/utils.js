@@ -46,7 +46,7 @@ export function Vector2(x,y){
 		return(Vector2(-obj.y, obj.x);
 	}
 	obj.OrthoY = function(other){
-		return(Vector2(obj.y, -obj.x);
+		return(Vector2(obj.y, -obj.x));
 	}
 	
 	return(obj);
