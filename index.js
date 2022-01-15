@@ -49,7 +49,7 @@ camera.lookAt(2.25,0.5,0)
 	
 	let ABO = AB.OrthoY();
 	
-	let CamVec = ABO.Rotate(beta).Normalize().Scale(H).Sum(A);
+	let CamVec = ABO.Rotate(beta).Normalize().Scale(H).Neg().Sum(A);
 		
 	camera.position.x = 2.25;
 	camera.position.y = CamVec.y;
