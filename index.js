@@ -55,7 +55,7 @@ camera.lookAt(2.25,0.5,0)
 	camera.position.y = CamVec.y;
 	camera.position.z = CamVec.x; 
 
-camera.rotation.x = alpha/2;	
+	camera.rotation.x = Math.PI + alpha/2;	
 }
 
 
