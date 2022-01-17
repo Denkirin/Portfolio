@@ -36,8 +36,9 @@ export function Constructor(x, y, z, sx, sy, sz){
 	obj.Point = function(){
 		obj.disk.speed = 0.001;
 		obj.disk.pos.y = obj.z;
-		obj.disk.pos.x = obj.uppXbound - 0.15;
-		obj.dir = obj.disk.dir.Randomize();
+		obj.disk.pos.x = obj.uppXbound - 0.1;
+		// obj.dir = obj.disk.dir.Randomize();
+		obj.disk.dir = utils.Vector2(0,-1);
 	}
 	
 	obj.MovePlayer = function(dir){
@@ -58,12 +59,14 @@ export function Constructor(x, y, z, sx, sy, sz){
 	{
 		if (!obj.bouncingX && obj.uppXbound-0.05 - obj.disk.speed <= obj.disk.pos.x){
 			obj.disk.WallBounce(obj.normalX.Neg());
-			obj.disk.pos.x = obj.uppXbound-0.05;
-			obj.bouncingX = true;
+			obj.disk.Update(1);
+			// obj.disk.pos.x = obj.uppXbound-0.05;
+			// obj.bouncingX = true;
 		}else if(!obj.bouncingX && obj.disk.pos.x-0.05 - obj.disk.speed <= obj.lowXbound){
 			obj.disk.WallBounce(obj.normalX);
-			obj.disk.pos.x = obj.lowXbound+0.05; // rebota en la direcció de la normal (MALAMENT)
-			obj.bouncingX = true;
+			obj.disk.Update(1);
+			// obj.disk.pos.x = obj.lowXbound+0.05; // rebota en la direcció de la normal (MALAMENT)
+			// obj.bouncingX = true;
 		}else if(!obj.bouncingY && obj.uppYbound-0.05 - obj.disk.speed<= obj.disk.pos.y){
 			// obj.disk.WallBounce(obj.normalY.Neg());
 			// obj.disk.pos.y = obj.uppYbound-0.05;
@@ -76,10 +79,12 @@ export function Constructor(x, y, z, sx, sy, sz){
 			obj.Point();
 		}else if(!obj.bouncingD && utils.Vector2(obj.oponent.x,obj.oponent.z).Sub(obj.disk.pos).Magnitude()<0.1+obj.disk.speed){
 			obj.disk.DiskBounce(utils.Vector2(obj.oponent.x,obj.oponent.z).Sub(obj.disk.pos).Normalize());
-			obj.bouncingD = true;
+			obj.disk.Update(1);
+			// obj.bouncingD = true;
 		}else if(!obj.bouncingD && utils.Vector2(obj.player.x,obj.player.z).Sub(obj.disk.pos).Magnitude()<0.1+obj.disk.speed){
 			obj.disk.DiskBounce(utils.Vector2(obj.player.x,obj.player.z).Sub(obj.disk.pos).Normalize());
-			obj.bouncingD = true;
+			obj.disk.Update(1);
+			// obj.bouncingD = true;
 		}
 		
 		if (utils.Vector2(obj.player.x,obj.player.z).Sub(obj.disk.pos).Magnitude()>0.1+obj.disk.speed &&
@@ -101,7 +106,13 @@ export function Constructor(x, y, z, sx, sy, sz){
 		
 		obj.oponent.x = obj.ratio*obj.disk.pos.x + (1-obj.ratio)*obj.oponent.x;
 
-		if (obj.player.x + obj.playerDir*0.02 - 0.05 > obj.lowXbound && obj.player.x + obj.playerDir*0.02 + 0.05 < obj.uppXbound){
+		if (
+			obj.player.x + obj.playerDir*0.02 - 0.05 > obj.lowXbound && 
+			obj.player.x + obj.playerDir*0.02 + 0.05 < obj.uppXbound ||
+			obj.disk.pos.y < obj.player.z + 0.1 &&
+			obj.player.x + obj.PlayerDir*0.02 - 0.15 > obj.lowXbound &&
+			obj.player.y + onj.playerDir*0.02 + 0.15 < obj.uppXbound
+		){
 			obj.player.x += obj.playerDir*0.02;
 		}
 		
