@@ -1,4 +1,4 @@
-// import './style.css'
+import './style.css'
 
 import * as THREE from 'https://cdn.skypack.dev/pin/three@v0.136.0-4Px7Kx1INqCFBN0tXUQc/mode=imports/optimized/three.js';
 
@@ -26,6 +26,55 @@ window.mobileCheck = function() {
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 
+function CameraSetup(){
+	let alpha = Math.PI/4
+	
+	let A = utils.Vector2(1,1);
+	let B = utils.Vector2(-2,0.6);
+	
+	let AB = B.Sub(A);
+	
+	let D = AB.Magnitude() / Math.sin(alpha);
+	
+	let boardWidth = 1.5;
+	
+	let projHeight = window.innerHeight * boardWidth / window.innerWidth;
+	
+	let beta = 0;
+	
+	if (2 * projHeight / D <= 1){
+		beta = Math.acos(2 * projHeight / D);
+	}
+	
+	let gamma = Math.PI/2 - beta;
+	
+	let dist = projHeight / Math.tan(alpha/2);
+	
+	let camPos = AB.Neg().Normalize().Rotate(-gamma).Scale(dist).Sum(A.Sum(B).Scale(0.5));
+	
+	
+	// let h = (window.innerHeight/window.innerWidth)/(2*Math.tan(alpha/2));
+	
+	// let beta = h * Math.sin(alpha) / D;
+	
+	// let gamma = Math.PI - alpha - beta;
+	
+	// let c = h * Math.sin(gamma) / Math.sin(alpha);
+	
+	// let camPos = AB.Rotate(-beta).Normalize().Scale(c).Neg().Sum(A);
+	
+	camera.position.x = 2.25;
+	camera.position.y = camPos.y;
+	camera.position.z = camPos.x; 
+
+	camera.lookAt(2.25,0.5,-0.5);
+	
+	camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
+}
+
 if (window.mobileCheck()){
 	
 	camera.position.x = 2.25;
@@ -33,29 +82,10 @@ if (window.mobileCheck()){
 	camera.position.z = -0.5; 
 	
 	
-camera.lookAt(2.25,0.5,0)
+
 }else{
 	
-	
-	let alpha = Math.PI/4
-	let beta = Math.PI/2 - alpha
-	
-	let A = utils.Vector2(1,1.2);
-	let B = utils.Vector2(-2,0.6);
-	
-	let AB = B.Sub(A);
-	
-	let H = AB.Magnitude() / Math.sin(alpha);
-	
-	let ABO = AB.OrthoY();
-	
-	let CamVec = ABO.Rotate(beta).Normalize().Scale(H).Neg().Sum(A);
-		
-	camera.position.x = 2.25;
-	camera.position.y = CamVec.y;
-	camera.position.z = CamVec.x; 
-
-	camera.rotation.x = Math.PI + alpha/2;	
+	CameraSetup();
 }
 
 
@@ -188,23 +218,6 @@ function addBlock(sx,sy,sz,x,z,y= sy/2){
 // createArcade(4,0,1,Math.PI);
 // createArcade(5,0,1,Math.PI);
 
-function moveCamera(){
-	
-	const t = document.body.getBoundingClientRect().top;
-	moon.rotation.x += 0.05;
-	moon.rotation.y += 0.075;
-	moon.rotation.z += 0.05;
-	
-	// room.rotation.y += 0.01;
-	// room.rotation.z += 0.01;
-	
-	camera.position.x = t * -0.002;
-	camera.position.y = t * -0.002;
-	camera.position.z = t * -0.01;
-}
-
-document.body.onscroll = moveCamera
-
 // addBlock(1.5,0.6,2,2.25,-0.5)
 const table = Table.Constructor(2.25,0.6,-0.5,1.5,0.1,2);
 
@@ -236,6 +249,12 @@ window.addEventListener( 'keyup', (event) => {
 		table.StopPlayer(1);
 	}
 }, false );
+
+
+
+window.addEventListener('resize', function(event) {
+    CameraSetup();
+}, true);
 
 window.addEventListener( 'rightarrow', table.PlayerRight, false );
 
@@ -293,9 +312,6 @@ var old = Date.now();
 
 function animate(){
 	requestAnimationFrame(animate);
-	
-	// camera.rotation.y = Math.cos(clock)
-	
 	
 	table.Update((Date.now() - old)/10);
 	
