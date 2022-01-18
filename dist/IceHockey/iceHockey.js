@@ -1,4 +1,4 @@
-import * as utils from './utils.js'
+import * as utils from '../utils.js'
 import * as Disk from './disk.js'
 import * as Player from './oponent.js'
 

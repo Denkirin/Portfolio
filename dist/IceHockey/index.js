@@ -6,7 +6,7 @@ import * as THREE from 'https://cdn.skypack.dev/pin/three@v0.136.0-4Px7Kx1INqCFB
 // import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 
 import * as Table from './iceHockey.js';
-import * as utils from './utils.js';
+import * as utils from '../utils.js';
 
 
 const scene = new THREE.Scene();
