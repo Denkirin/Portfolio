@@ -1,4 +1,4 @@
-import './style.css'
+// import './style.css'
 import {ParalaxScene} from './scene';
 
 const canvas = document.getElementById('Renderer');
