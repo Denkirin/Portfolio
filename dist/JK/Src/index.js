@@ -1,47 +1,52 @@
 import './style.css'
+import {ParalaxScene} from './scene';
 
-var canvas = document.createElement('canvas');
+const canvas = document.getElementById('Renderer');
 
-canvas.id = "CursorLayer";
-canvas.width = 1224;
-canvas.height = 768;
-canvas.style.zIndex = 8;
-canvas.style.position = "absolute";
-canvas.style.border = "1px solid";
+canvas.width  = window.innerWidth;
+canvas.height = window.innerHeight;
 
+document.body.appendChild(canvas); // adds the canvas to the body element
 
-var body = document.getElementsByTagName("body")[0];
-body.appendChild(canvas);
+var scene = new ParalaxScene('../Data/JK_Background.png', canvas, 6, 1, 512, 64, window.innerHeight/64,15);
 
-// below is optional
+var jhonny = new ParalaxScene('../Data/JK_Walking.png', canvas, 6, 1, 32, 64, window.innerHeight/64,4);
 
-var ctx = canvas.getContext("2d");
-ctx.fillStyle = "rgba(255, 0, 0, 0.2)";
-ctx.fillRect(100, 100, 200, 200);
-ctx.fillStyle = "rgba(0, 255, 0, 0.2)";
-ctx.fillRect(150, 150, 200, 200);
-ctx.fillStyle = "rgba(0, 0, 255, 0.2)";
-ctx.fillRect(200, 50, 200, 200);
+var x = 0;
+var y = 200;
 
-var img = new Image();   // Create new img element
-
-var loaded = false;
-
-img.onload = function() {
-	loaded = true;
+function init()
+{
+	
 }
 
-var cnt = 0
+function update()
+{
+	scene.update();
+	jhonny.update();
+	jhonny.animation.x = x;
+	jhonny.animation.y = y;
+	
+	if (x <= -32 * window.innerHeight/64){
+		x = window.innerWidth - 32;
+	}else{
+		x -= 20;
+	}
+}
 
-img.src = '../Data/JK_Background.png';
+function render()
+{
+	scene.render();
+	jhonny.render();
+}
 
-function main() {
+function main() 
+{
     let stopMain = window.requestAnimationFrame( main );
-	console.log("A");
-	 
-	cnt = (cnt+1)%6
-	 
-    ctx.drawImage(img, cnt * 512, 0,512,64,0,0,512,64);
+	
+	update();
+	
+	render();
     // Your main loop contents
   }
   
