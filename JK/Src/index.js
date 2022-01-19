@@ -1,5 +1,5 @@
 // import './style.css'
-import {ParalaxScene} from './scene';
+import {ParalaxScene} from '.JK/Src/scene';
 
 const canvas = document.getElementById('Renderer');
 
