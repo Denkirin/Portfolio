@@ -75,18 +75,7 @@ function CameraSetup(){
     renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
-if (window.mobileCheck()){
-	
-	camera.position.x = 2.25;
-	camera.position.y = 2;
-	camera.position.z = -0.5; 
-	
-	
-
-}else{
-	
-	CameraSetup();
-}
+CameraSetup();
 
 
 renderer.render(scene, camera);
