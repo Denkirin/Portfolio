@@ -1,5 +1,4 @@
-
-export default class Animation
+export class Animation
 {
 	constructor(_path, _framesX, _framesY, _frameWidth, _frameHeihgt, _posX, _posY, _scale, _canvas, _delay)
 	{
@@ -48,6 +47,8 @@ export default class Animation
 		{
 			this.delayCount ++;
 		}
+		
+		return(this.frameCounter == this.framesX*this.framesY -1);
 	}
 	
 	render()
