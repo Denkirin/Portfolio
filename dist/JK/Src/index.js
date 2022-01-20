@@ -1,5 +1,7 @@
 // import './style.css'
 import {ParalaxScene} from './scene.js';
+import {Animation} from './animation.js';
+import {Entity} from './entity.js';
 
 const canvas = document.getElementById('Renderer');
 
@@ -8,12 +10,55 @@ canvas.height = window.innerHeight;
 
 document.body.appendChild(canvas); // adds the canvas to the body element
 
+var x = 0;
+var playerX = window.innerWidth/2 - 16*window.innerHeight/64;
+var playerY = 200;
+var speed = 10;
+
+var moving = 0;
+
+var crouch = false;
+
+var playerAnimations = [];
+playerAnimations.push(new Animation('../Data/JK_Iddle_R.png', 4, 1, 32, 64, playerX, playerY, window.innerHeight/64, canvas, 4));
+playerAnimations.push(new Animation('../Data/JK_Iddle_L.png', 4, 1, 32, 64, playerX, playerY, window.innerHeight/64, canvas, 4));
+playerAnimations.push(new Animation('../Data/JK_Walking_R.png', 6, 1, 32, 64, playerX, playerY, window.innerHeight/64, canvas, 4));
+playerAnimations.push(new Animation('../Data/JK_Walking_L.png', 6, 1, 32, 64, playerX, playerY, window.innerHeight/64, canvas, 4));
+playerAnimations.push(new Animation('../Data/JK_CrossWalking_R.png', 6, 1, 32, 64, playerX, playerY, window.innerHeight/64, canvas, 4));
+playerAnimations.push(new Animation('../Data/JK_CrossWalking_L.png', 6, 1, 32, 64, playerX, playerY, window.innerHeight/64, canvas, 4));
+
 var scene = new ParalaxScene('../Data/JK_Background.png', canvas, 6, 1, 512, 64, window.innerHeight/64,15);
 
-var jhonny = new ParalaxScene('../Data/JK_Walking.png', canvas, 6, 1, 32, 64, window.innerHeight/64,4);
+var jhonny = new Entity(playerAnimations);
 
-var x = 0;
-var y = 200;
+
+
+window.addEventListener( 'keydown', (event) => {
+	if(event.key == "ArrowRight" && moving == 0){
+		moving = 1;
+		jhonny.changeAnimation((crouch ? 4 : 2),-1);
+	}else if(event.key == "ArrowLeft" && moving == 0){
+		moving = -1;
+		jhonny.changeAnimation((crouch ? 5 : 3), -1);
+	}else if(event.key == "Shift" && moving == 0){
+		crouch = true;
+		speed /= 2;
+	}
+}, false );
+
+window.addEventListener( 'keyup', (event) => {
+	if(event.key == "ArrowRight"){
+		moving = 0;
+		jhonny.changeAnimation(0,-1);
+	}else if(event.key == "ArrowLeft"){
+		moving = 0;
+		jhonny.changeAnimation(1,-1);
+	}else if(event.key == "Shift"){
+		crouch = false;
+		speed *= 2;
+	}
+}, false );
+
 
 function init()
 {
@@ -24,13 +69,12 @@ function update()
 {
 	scene.update();
 	jhonny.update();
-	jhonny.animation.x = x;
-	jhonny.animation.y = y;
 	
-	if (x <= -32 * window.innerHeight/64){
-		x = window.innerWidth - 32;
-	}else{
-		x -= 20;
+	if (moving != 0){
+		if (!scene.move(moving*speed)){
+			jhonny.changeAnimation((moving > 0 ? 0 : 1), -1);
+			moving = 0;
+		}
 	}
 }
 
