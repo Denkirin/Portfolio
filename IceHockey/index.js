@@ -226,7 +226,7 @@ function handleMove(e)
 {
 	if(e.touches) 
 	{
-		table.disk.x = e.touches[0].x;
+		table.disk.pos.x = e.touches[0].x;
 	}
 }
 
