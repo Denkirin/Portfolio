@@ -222,6 +222,16 @@ tableMesh.position.z = table.z;
 
 scene.add(tableMesh);
 
+function handleMove(e)
+{
+	if(e.touches) 
+	{
+		table.disk.x = e.touches[0].x;
+	}
+}
+
+window.addEventListener( 'touchmove', handleMove, false );
+
 window.addEventListener( 'click', table.Start, false );
 window.addEventListener( 'keydown', (event) => {
 	if(event.key == "ArrowRight"){
