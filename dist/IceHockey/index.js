@@ -226,7 +226,7 @@ function handleMove(e)
 {
 	if(e.touches) 
 	{
-		table.disk.pos.x = e.touches[0].x;
+		table.player.x = (1-e.touches[0].x/window.innerWidth) * (table.uppXbound - table.lowXbound) + table.lowXbound ;
 	}
 }
 
