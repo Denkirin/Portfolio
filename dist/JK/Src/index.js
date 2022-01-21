@@ -62,7 +62,7 @@ window.addEventListener( 'keyup', (event) => {
 }, false );
 
 function handleStart(e) 
-{
+	{
     if(e.touches) 
 	{
         touchX = e.touches[0].pageX ;
@@ -73,12 +73,12 @@ function handleMove(e)
 {
 	if(e.touches) 
 	{
-		if(touchX - e.touches[0].pageX < 0)
+		if(touchX - e.touches[0].pageX > 0)
 		{
 			moving = -1;
 			jhonny.changeAnimation((crouch ? 5 : 3), -1);
 		}
-		else if (touchX - e.touches[0].pageX > 0)
+		else if (touchX - e.touches[0].pageX < 0)
 		{
 			moving = 1;
 			jhonny.changeAnimation((crouch ? 4 : 2),-1);	
