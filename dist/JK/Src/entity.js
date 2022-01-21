@@ -10,22 +10,27 @@ export class Entity
 		this.currIdx = 0;
 		this.repCount = 0;
 		this.repLimit = 0;
+		this.state = 0;
 	}
+	
+	
 
 	changeAnimation(idx, repeat){
 		this.lastIdx = this.currIdx;
 		this.currIdx = idx;
 		this.repCount = 0;
 		this.repLimit = repeat;
+		this.animations[idx].flush();
 	}
 	
 	
 	update()
 	{
 		if (this.repCount == this.repLimit && this.repLimit > 0){
-			this.currIdx = lastIdx;
+			this.currIdx = this.lastIdx;
 			this.repLimit = -1;
 			this.repCount = 0;
+			this.state = 0;
 		}
 		
 		if (this.animations[this.currIdx].step()){
