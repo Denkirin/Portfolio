@@ -222,15 +222,26 @@ tableMesh.position.z = table.z;
 
 scene.add(tableMesh);
 
+var touchX = 0;
+
+function handleStart(e)
+{
+	if(e.touches) 
+	{
+		touchX = e.touches[0].pageX
+	}
+}
+
 function handleMove(e)
 {
 	if(e.touches) 
 	{
-		table.player.x = (1-e.touches[0].x/window.innerWidth) * (table.uppXbound - table.lowXbound) + table.lowXbound ;
+		table.player.x = (1-e.touches[0].pageX/window.innerWidth) * (table.uppXbound - table.lowXbound) + table.lowXbound ;
 	}
 }
 
 window.addEventListener( 'touchmove', handleMove, false );
+// window.addEventListener( 'touchstart', handleStart, false );
 
 window.addEventListener( 'click', table.Start, false );
 window.addEventListener( 'keydown', (event) => {
