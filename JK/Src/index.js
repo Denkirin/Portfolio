@@ -19,6 +19,8 @@ var moving = 0;
 
 var crouch = false;
 
+var touchX = 0;
+
 var playerAnimations = [];
 playerAnimations.push(new Animation('../Data/JK_Iddle_R.png', 4, 1, 32, 64, playerX, playerY, window.innerHeight/64, canvas, 4));
 playerAnimations.push(new Animation('../Data/JK_Iddle_L.png', 4, 1, 32, 64, playerX, playerY, window.innerHeight/64, canvas, 4));
@@ -58,6 +60,51 @@ window.addEventListener( 'keyup', (event) => {
 		speed *= 2;
 	}
 }, false );
+
+function handleStart(e) 
+{
+    if(e.touches) 
+	{
+        touchX = e.touches[0].pageX ;
+    }
+}
+
+function handleMove(e)
+{
+	if(e.touches) 
+	{
+		if(touchX - e.touches[0].pageX < 0)
+		{
+			moving = -1;
+			jhonny.changeAnimation((crouch ? 5 : 3), -1);
+		}
+		else if (touchX - e.touches[0].pageX > 0)
+		{
+			moving = 1;
+			jhonny.changeAnimation((crouch ? 4 : 2),-1);	
+		}
+	}
+}
+
+function handleEnd(e)
+{
+	if(moving< 0)
+	{
+		moving = 0;
+		jhonny.changeAnimation(1,-1);
+	}
+	else if (moving>0)
+	{
+		moving = 0;
+		jhonny.changeAnimation(0,-1);
+	}
+
+}
+
+canvas.addEventListener("touchstart", handleStart);
+canvas.addEventListener("touchmove", handleMove);
+canvas.addEventListener("touchend", handleEnd)
+
 
 
 function init()
