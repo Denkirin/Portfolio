@@ -32,6 +32,13 @@ export class Animation
 		
 	}
 	
+	flush()
+	{
+		this.frameCounter = 0;
+		this.offsetX = 0;
+		this.offsetY = 0;
+	}
+	
 	step()
 	{
 		if(this.delayCount == this.delayRatio)
