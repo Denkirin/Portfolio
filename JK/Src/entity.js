@@ -16,11 +16,13 @@ export class Entity
 	
 
 	changeAnimation(idx, repeat){
-		this.lastIdx = this.currIdx;
-		this.currIdx = idx;
-		this.repCount = 0;
-		this.repLimit = repeat;
-		this.animations[idx].flush();
+		if (idx != this.currIdx){
+			this.animations[idx].flush();
+			this.lastIdx = this.currIdx;
+			this.currIdx = idx;
+			this.repCount = 0;
+			this.repLimit = repeat;
+		}
 	}
 	
 	
