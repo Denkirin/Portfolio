@@ -13,6 +13,9 @@ let rgt = false;
 let fwd = false;
 let sht = false;
 
+let tini;
+let tend;
+
 let shotCount = 0;
 
 let score;
@@ -21,7 +24,8 @@ window.onload = init;
 
 let osci;
 
-function init(){
+function init()
+{
 	canvas = document.querySelector('canvas');
 	
 	osci = new Oscillator();
@@ -40,12 +44,15 @@ function init(){
 	oldTimestamp = 0;
 	score = 0;
 	
+	tini = new Vector(0,0);
+	tend = new Vector(0,0);
 	
 	// Start the first frame request
 	window.requestAnimationFrame(gameLoop);
 }
 
-function gameLoop(timeStamp){
+function gameLoop(timeStamp)
+{
 	
 	if (oldTimestamp == 0) oldTimestamp = timeStamp;
 	
@@ -64,12 +71,13 @@ function gameLoop(timeStamp){
 }
 
 function removeDead(obstacle)
-	{
-		return(!obstacle.dead);
-	}
+{
+	return(!obstacle.dead);
+}
 	
 
-function update(delta){
+function update(delta)
+{
 	
 	let obsScore = 0;
 	
@@ -204,5 +212,51 @@ addEventListener('keyup',() => {
 	{
 		sht = false;
 	}
+
+})
+
+addEventListener('touchdown',() => {
+	
+	tini.x = event.touches[0].pageX;
+	tini.y = event.touches[0].pageY;
+	
+	if (!sht)
+	{
+		player.shoot();
+		
+		osci.shot();
+		sht = true;
+	}
+})
+
+addEventListener('touchmove',() => {
+	
+	tend.x = event.touches[0].pageX;
+	tend.y = event.touches[0].pageY;
+
+	if (Math.abs(tini.y - tend.y) > Math.abs(tini.x - tend.x))
+	{
+		fwd = true;
+	}
+	else
+	{
+		if (tini.x > tend.x)
+		{
+			rgt = false
+			lft = true;
+		}
+		else
+		{			
+			lft = false
+			rgt = true;
+		}
+	}
+})
+
+addEventListener('touchup',() => {
+
+	tini.x = 0;
+	tini.y = 0;
+	sht = false;
 
 })
