@@ -174,3 +174,7 @@ addEventListener('keyup',() => {
 	}
 
 })
+
+addEventListener("touchend", () => {
+	document.location.href = './../Game/index.html';
+});
