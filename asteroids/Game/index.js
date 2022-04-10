@@ -215,7 +215,7 @@ addEventListener('keyup',() => {
 
 })
 
-addEventListener('touchdown',() => {
+addEventListener('touchstart',() => {
 	
 	tini.x = event.touches[0].pageX;
 	tini.y = event.touches[0].pageY;
