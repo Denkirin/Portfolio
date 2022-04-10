@@ -253,7 +253,7 @@ addEventListener('touchmove',() => {
 	}
 })
 
-addEventListener('touchup',() => {
+addEventListener('touchend',() => {
 
 	tini.x = 0;
 	tini.y = 0;
