@@ -258,5 +258,8 @@ addEventListener('touchup',() => {
 	tini.x = 0;
 	tini.y = 0;
 	sht = false;
+	fwd = false;
+	lft = false;
+	rgt = false;
 
 })
