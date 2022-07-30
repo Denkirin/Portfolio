@@ -8,12 +8,15 @@ let obstacles;
 
 let dir = 1;
 
-let lft = false;
-let rgt = false;
-let fwd = false;
-let sht = false;
+let trans = false;
+
+let p1,p2,p3;
 
 let pulsing;
+let pointer;
+let textOff = 0;
+
+const tabs = ["PROJECTS","ABOUT ME","CONTACT"]
 
 window.onload = init;
 
@@ -62,7 +65,11 @@ function init(){
 	
 	ctx = canvas.getContext('2d');
 
+	pulsing = 200;
+
 	oldTimestamp = 0;
+	
+	pointer = 0;
 	
 	for (let i = 0; i < 100; i++) {
 		particles.push(new Particle());
@@ -77,9 +84,9 @@ function gameLoop(timeStamp){
 	
 	const delta = (timeStamp - oldTimestamp) * timeFactor;
 		
-	pulsing = 200 + 55*Math.cos(timeStamp/500);
-		
-	update(delta);
+
+	
+	update(timeStamp);
 	
 	particles.forEach((particle)=>
 	{
@@ -95,8 +102,19 @@ function gameLoop(timeStamp){
 	window.requestAnimationFrame(gameLoop);
 }
 
-function update(delta){
+function update(timeStamp){
 	
+	pulsing = 200 + 55*Math.cos(timeStamp/200);
+	
+	p1 = canvas.height * ( 0.65 + 0.07 * pointer)
+	p2 = p1 + canvas.height * 0.025 * Math.cos(timeStamp/200);
+	p3 = p1 + canvas.height * 0.025 * Math.cos(timeStamp/200 + Math.PI);
+	
+	if (textOff > 80)
+	{
+		console.log("CHANGE!");
+		document.location.href = './asteroids/Init/index.html';
+	}
 
 }
 
@@ -109,58 +127,88 @@ function draw(){
 		particle.draw(ctx);
 	});
 
+	if (trans)
+	{
+		let oldx = canvas.width/2;
+		let oldy = canvas.height/2;
+		
+		textOff += 0.8
+		
+		ctx.translate(oldx,oldy);
+		ctx.scale(1.1, 1.1);
+		ctx.translate(-oldx, -oldy);
+		
+		ctx.fillRect(innerWidth/2 - textOff/2 ,innerHeight/2 - textOff/2,textOff,textOff);
+		
+	}
+
 	ctx.strokeStyle = 'white';
 	ctx.fillStyle = 'white'
+	
+	
+	ctx.font = canvas.height * 0.05 + 'px impact';
+	ctx.textAlign = 'center';
+	ctx.textBaseline = 'middle'; 
+ 
+    ctx.fillText("Pau Pamos", canvas.width/3-textOff, canvas.height * 0.28-textOff, canvas.width);	
 	
 	ctx.font = canvas.height * 0.2 + 'px impact';
 	ctx.textAlign = 'center';
 	ctx.textBaseline = 'middle'; 
- 
-    ctx.fillText('CELESTIAL', canvas.width/2, canvas.height * 0.2, canvas.width);
-    ctx.fillText('BODIES', canvas.width/2, canvas.height * 0.4, canvas.width);
 	
-	
-	ctx.fillStyle = 'rgba('+pulsing+', '+pulsing+', '+pulsing+', 1)'
+    ctx.fillText('PORTFOLIO', canvas.width/2, canvas.height * 0.4, canvas.width);
 	
 	ctx.font = canvas.height * 0.05 + 'px impact';
-    ctx.fillText('PRESS START', canvas.width/2, canvas.height * 0.8, canvas.width);
+	
+	for(let i = 0; i<3; i++)
+	{
+		if(i==pointer)
+		{
+			ctx.fillStyle = 'rgba('+pulsing+', '+pulsing+', '+pulsing+', 1)'
+		}
+		else
+		{
+			ctx.fillStyle = 'rgba(120,120,120, 1)'
+		}
+		
+		ctx.fillText(tabs[i], canvas.width/2, canvas.height * (0.65 + 0.07*i), canvas.width);
+	}
+	
+	ctx.strokeStyle = 'rgba(255,255,255, 0)'
+	
+	ctx.beginPath();
+	ctx.moveTo(canvas.width/2.6, p1);
+	ctx.lineTo(canvas.width/2.8, p2);
+	ctx.lineTo(canvas.width/2.8, p3);
+	ctx.lineTo(canvas.width/2.6, p1);
+	ctx.stroke();
+	
     // ctx.fillText('BODIES', canvas.width/2, canvas.height * 0.9);
 }
 
 addEventListener('keydown',() => {
 	
-	if (event.keyCode == 90)
+	if (event.keyCode == 40)
 	{
-		fwd = true;
+		pointer = (pointer + 1) % 3
 	}
 	
-	if (event.keyCode == 37)
+	if (event.keyCode == 32)
 	{
-		lft = true;
-	}
-	
-	if (event.keyCode == 39)
-	{
-		rgt = true;
+		trans = true;
 	}
 
-	if (event.keyCode == 88 || event.keyCode == 32)
+	if (event.keyCode == 38)
 	{
-		document.location.href = './../Game/index.html';
-	}
-	
-	if (event.keyCode == 81 || event.keyCode == 27)
-	{
-		document.location.href = './../../index.html';
+		pointer = (pointer + 2) % 3
 	}
 
 })
 
 addEventListener('keyup',() => {
 	
-	if (event.keyCode == 90)
+	if (event.keyCode == 36)
 	{
-		fwd = false;
 	}
 	
 	if (event.keyCode == 37)
@@ -173,9 +221,8 @@ addEventListener('keyup',() => {
 		rgt = false;
 	}
 	
-	if (event.keyCode == 88)
+	if (event.keyCode == 38)
 	{
-		sht = false;
 	}
 
 })
