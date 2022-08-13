@@ -73,8 +73,8 @@ function update(delta)
 	if (food.distance(enemy.pos)<=20)
 	{	
 		enemy.enlarge();
-		food.x = Math.random()*innerWidth
-		food.y = Math.random()*innerHeight
+		food.x = Math.random()*canvas.width
+		food.y = Math.random()*canvas.height
 	}
 	
 	if (food.distance(player.pos)<=20)

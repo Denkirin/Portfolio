@@ -16,8 +16,12 @@ let pulsing;
 let pointer;
 let textOff = 0;
 
-const tabs = ["PROJECTS","ABOUT ME","CONTACT"]
+let stage = 0;
+let targetStage;
+let offtrans = 0;
 
+const tabs = ["PROJECTS","ABOUT ME","CONTACT"]
+const projects = ["ASTEROIDS", "MUKADE"]
 window.onload = init;
 
 class Particle
@@ -129,17 +133,15 @@ function draw(){
 
 	if (trans)
 	{
-		let oldx = canvas.width/2;
-		let oldy = canvas.height/2;
-		
-		textOff += 0.8
-		
-		ctx.translate(oldx,oldy);
-		ctx.scale(1.1, 1.1);
-		ctx.translate(-oldx, -oldy);
-		
-		ctx.fillRect(innerWidth/2 - textOff/2 ,innerHeight/2 - textOff/2,textOff,textOff);
-		
+		if (stage != targetStage && offtrans < canvas.height/2)
+		{
+			offtrans+= 10;
+		}
+		else if ( offtrans > 0)
+		{	
+			stage = targetStage
+			offtrans -= 10;
+		}
 	}
 
 	ctx.strokeStyle = 'white';
@@ -160,7 +162,18 @@ function draw(){
 	
 	ctx.font = canvas.height * 0.05 + 'px impact';
 	
-	for(let i = 0; i<3; i++)
+	let opts = 0;
+	
+	if (stage == 0)
+	{
+		opts = tabs.length;
+	}
+	else
+	{
+		opts = projects.length;
+	}
+	
+	for(let i = 0; i<opts; i++)
 	{
 		if(i==pointer)
 		{
@@ -171,16 +184,23 @@ function draw(){
 			ctx.fillStyle = 'rgba(120,120,120, 1)'
 		}
 		
-		ctx.fillText(tabs[i], canvas.width/2, canvas.height * (0.65 + 0.07*i), canvas.width);
+		if (stage == 0)
+		{
+			ctx.fillText(tabs[i], canvas.width/2, canvas.height * (0.65 + 0.07*i) + offtrans, canvas.width);
+		}
+		else
+		{
+			ctx.fillText(projects[i], canvas.width/2, canvas.height * (0.65 + 0.07*i) + offtrans, canvas.width);
+		}
 	}
 	
 	ctx.strokeStyle = 'rgba(255,255,255, 0)'
 	
 	ctx.beginPath();
-	ctx.moveTo(canvas.width/2.6, p1);
-	ctx.lineTo(canvas.width/2.8, p2);
-	ctx.lineTo(canvas.width/2.8, p3);
-	ctx.lineTo(canvas.width/2.6, p1);
+	ctx.moveTo(canvas.width/2.6, p1+offtrans);
+	ctx.lineTo(canvas.width/2.8, p2+offtrans);
+	ctx.lineTo(canvas.width/2.8, p3+offtrans);
+	ctx.lineTo(canvas.width/2.6, p1+offtrans);
 	ctx.stroke();
 	
     // ctx.fillText('BODIES', canvas.width/2, canvas.height * 0.9);
@@ -195,7 +215,19 @@ addEventListener('keydown',() => {
 	
 	if (event.keyCode == 32)
 	{
-		trans = true;
+		if (pointer == 0 && stage == 0)
+		{
+			trans = true;
+			targetStage = 1;
+		}
+		if (pointer == 0 && stage == 1)
+		{
+			document.location.href = 'Asteroids/Init/index.html';
+		}
+		if (pointer == 1 && stage == 1)
+		{
+			document.location.href = 'Mukade/index.html';
+		}
 	}
 
 	if (event.keyCode == 38)

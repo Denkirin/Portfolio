@@ -17,10 +17,25 @@
 			-webkit-font-smoothing : none;
 			position: fixed;
 		}
+		
+		#HUD{
+			top: 0px;
+			left: 0px;
+			height: 10%;
+			width: 100%;
+		}
+		
+		#Viewport{
+			top: 0px;
+			left: 0px;
+			height: 100%;
+			width: 100%;		
+		}
 			
 	</style>
 
-	<canvas></canvas>
+	<canvas id = "Viewport"></canvas>
+	<img id = "banner" src = "./MUKADE.png" style = "display:none">
 	<script src = "./Utils.js"></script>
 	<script src = "./Player.js"></script>
 	<script src = "./index.js"></script>
