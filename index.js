@@ -2,9 +2,6 @@ const timeFactor = 1/100;
 
 let canvas;
 let ctx;
-let player;
-
-let obstacles;
 
 let dir = 1;
 
