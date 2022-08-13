@@ -1,5 +1,4 @@
-const timeFactor = 1/100;
- 
+const timeFactor = 1/100; 
 let canvas;
 let ctx;
 
