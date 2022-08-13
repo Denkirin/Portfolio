@@ -258,12 +258,12 @@ addEventListener('keyup',() => {
 
 })
 
-addEventListener("touchend", (e) => {
+addEventListener("touchstart", (e) => {
 	if (stage == 0)
-		{
-			trans = true;
-			targetStage = 1;
-		}
+	{
+		trans = true;
+		targetStage = 1;
+	}
 	else
 	{
 		if (event.touches[0].pageY < canvas.height * 0.72)
