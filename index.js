@@ -274,5 +274,5 @@ addEventListener("touchend", (e) => {
 		{
 			document.location.href = 'Mukade/index.html';
 		}
-	document.location.href = './../Game/index.html';
+	}
 });
