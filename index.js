@@ -4,7 +4,6 @@ let canvas;
 let ctx;
 
 let dir = 1;
-
 let trans = false;
 
 let p1,p2,p3;
