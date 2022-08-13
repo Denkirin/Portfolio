@@ -269,7 +269,7 @@ addEventListener("touchend", (e) => {
 		}
 	else
 	{
-		if (e.touches[0].clientY < canvas.height * 0.72)
+		if (event.touches[0].pageY < canvas.height * 0.72)
 		{
 			document.location.href = 'Asteroids/Init/index.html';
 		}

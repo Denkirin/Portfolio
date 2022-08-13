@@ -255,47 +255,21 @@ addEventListener('keyup',() => {
 
 addEventListener('touchstart',() => {
 	
-	tini.x = event.touches[0].pageX;
-	tini.y = event.touches[0].pageY;
+	coreTarget.x = event.touches[0].pageX;
+	coreTarget.y = Math.max(event.touches[0].pageY,bound);
 	
-	if (!sht)
-	{
-		player.shoot();
-		
-		osci.shot();
-		sht = true;
-	}
 })
 
 addEventListener('touchmove',() => {
 	
-	tend.x = event.touches[0].pageX;
-	tend.y = event.touches[0].pageY;
-
-	if (Math.abs(tini.y - tend.y) > Math.abs(tini.x - tend.x))
-	{
-		fwd = true;
-	}
-	else
-	{
-		if (tini.x > tend.x)
-		{
-			rgt = false
-			lft = true;
-		}
-		else
-		{			
-			lft = false
-			rgt = true;
-		}
-	}
+	coreTarget.x = event.touches[0].pageX;
+	coreTarget.y = Math.max(event.touches[0].pageY,bound);
+	
 })
 
 addEventListener('touchend',() => { 
 // FIX THIS
 
-	tini.x = 0;
-	tini.y = 0;
 	sht = false;
 	fwd = false;
 	lft = false;
