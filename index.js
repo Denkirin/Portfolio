@@ -195,13 +195,15 @@ function draw(){
 	}
 	
 	ctx.strokeStyle = 'rgba(255,255,255, 0)'
-	
-	ctx.beginPath();
-	ctx.moveTo(canvas.width/2.6, p1+offtrans);
-	ctx.lineTo(canvas.width/2.8, p2+offtrans);
-	ctx.lineTo(canvas.width/2.8, p3+offtrans);
-	ctx.lineTo(canvas.width/2.6, p1+offtrans);
-	ctx.stroke();
+	if (!navigator.userAgent.toLowerCase().match(/mobile/i))
+	{
+		ctx.beginPath();
+		ctx.moveTo(canvas.width/2.6, p1+offtrans);
+		ctx.lineTo(canvas.width/2.8, p2+offtrans);
+		ctx.lineTo(canvas.width/2.8, p3+offtrans);
+		ctx.lineTo(canvas.width/2.6, p1+offtrans);
+		ctx.stroke();
+	}
 	
     // ctx.fillText('BODIES', canvas.width/2, canvas.height * 0.9);
 }
@@ -259,6 +261,21 @@ addEventListener('keyup',() => {
 
 })
 
-addEventListener("touchend", () => {
+addEventListener("touchend", (e) => {
+	if (stage == 0)
+		{
+			trans = true;
+			targetStage = 1;
+		}
+	else
+	{
+		if (e.touches[0].clientY < canvas.height * 0.72)
+		{
+			document.location.href = 'Asteroids/Init/index.html';
+		}
+		else
+		{
+			document.location.href = 'Mukade/index.html';
+		}
 	document.location.href = './../Game/index.html';
 });
