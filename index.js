@@ -111,7 +111,7 @@ function update(timeStamp){
 	
 	if (textOff > 80)
 	{
-		console.log("CHANGE!");
+		//console.log("CHANGE!");
 		document.location.href = './asteroids/Init/index.html';
 	}
 

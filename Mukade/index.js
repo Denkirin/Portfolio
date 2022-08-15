@@ -16,12 +16,31 @@ let left = false;
 let right = false;
 let split = false;
 
-let banner;
+let score = 0;
+
+let spritesheet;
+
 let food = [];
 let foodLimit = 10
 let bound;
 
 window.onload = init;
+
+spriteData =
+{
+	"MUKADE" 	: { "x" : 1, 	"y" : 0, 	"w" : 128, 	"h" : 23 },
+	"ScoreText" : { "x" : 1, 	"y" : 38, 	"w" : 60, 	"h" : 14 },
+	1 			: { "x" : 1, 	"y" : 24, 	"w" : 12, 	"h" : 14 },
+	2 			: { "x" : 13, 	"y" : 24, 	"w" : 12, 	"h" : 14 },
+	3 			: { "x" : 25, 	"y" : 24, 	"w" : 12, 	"h" : 14 },
+	4 			: { "x" : 37, 	"y" : 24, 	"w" : 12, 	"h" : 14 },
+	5 			: { "x" : 49, 	"y" : 24, 	"w" : 12, 	"h" : 14 },
+	6 			: { "x" : 61, 	"y" : 24, 	"w" : 12, 	"h" : 14 },
+	7 			: { "x" : 73, 	"y" : 24, 	"w" : 12, 	"h" : 14 },
+	8 			: { "x" : 85, 	"y" : 24, 	"w" : 12, 	"h" : 14 },
+	9 			: { "x" : 97, 	"y" : 24, 	"w" : 12, 	"h" : 14 },
+	0 			: { "x" : 109, 	"y" : 24, 	"w" : 12, 	"h" : 14 },
+}
 
 function init()
 {
@@ -32,12 +51,12 @@ function init()
 	
 	bound = canvas.height * 0.1;
 	
-	banner = document.getElementById("banner");
+	spritesheet = document.getElementById("spritesheet");
 	
 	ctx = canvas.getContext('2d');
 	
-	player = new Player(new Vector(100, 100), new Vector(-1,-1), 3, 10,1)
-	enemy = new Player(new Vector(300, 300), new Vector(-1,-1), 3, 10,1)
+	player = new Player(new Vector(100, 100), new Vector(-1,-1), 0, 10,1)
+	enemy = new Player(new Vector(300, 300), new Vector(-1,-1), 0, 10,1)
 	
 	for(let i = 0; i < foodLimit; i++)
 	{
@@ -93,6 +112,7 @@ function update(delta)
 			player.enlarge();
 			f.x = Math.random()*canvas.width
 			f.y = Math.random()*(canvas.height - bound) + bound
+			score += 100;
 		}		
 	});
 	
@@ -110,6 +130,8 @@ function update(delta)
 		{
 			player.nodes.pop();
 		}
+		
+		score = Math.max(0,score-1000);
 	}
 	else
 	{		
@@ -137,6 +159,7 @@ function update(delta)
 			{
 				enemy.nodes.pop()
 				player.enlarge()
+				score += 100;
 			}
 		}
 		for (let i = 0; i < ecnt; i++)
@@ -145,6 +168,7 @@ function update(delta)
 			{
 				player.nodes.pop()
 				enemy.enlarge()
+				score -= 100;
 			}
 		}
 	}
@@ -182,7 +206,25 @@ function draw(){
 	ctx.fillStyle = 'rgba(0, 0, 0, 0.8)'
 	ctx.fillRect(0, 0, canvas.width, canvas.height)
 	
-	ctx.drawImage(banner,10,10, (banner.width / banner.height) * canvas.height * 0.05,canvas.height * 0.05);
+	let scale = canvas.height * 0.05/spriteData["MUKADE"].h
+	let scoreArr = splitNumber(score);
+	console.log(scoreArr)
+	
+	ctx.drawImage(spritesheet,spriteData["MUKADE"].x,spriteData["MUKADE"].y,spriteData["MUKADE"].w,spriteData["MUKADE"].h,10,10, spriteData["MUKADE"].w * scale, spriteData["MUKADE"].h * scale);
+	ctx.drawImage(spritesheet,spriteData["ScoreText"].x,spriteData["ScoreText"].y,spriteData["ScoreText"].w,spriteData["ScoreText"].h, canvas.width - 3 *spriteData["ScoreText"].w * scale,10, spriteData["ScoreText"].w * scale, spriteData["ScoreText"].h * scale);
+	
+	for (let i = 0; i < 8; i++)
+	{
+		if (scoreArr.length - 1 < i )
+		{
+			ctx.drawImage(spritesheet,spriteData[0].x,spriteData[0].y,spriteData[0].w,spriteData[0].h, canvas.width - 2 *spriteData["ScoreText"].w * scale + scale * spriteData[0].w * (7-i),10, spriteData[0].w * scale, spriteData[0].h * scale);
+		}
+		else
+		{
+			ctx.drawImage(spritesheet,spriteData[scoreArr[i]].x,spriteData[scoreArr[i]].y,spriteData[scoreArr[i]].w,spriteData[scoreArr[i]].h, canvas.width - 2 *spriteData["ScoreText"].w * scale  + scale * spriteData[scoreArr[i]].w * (7-i),10, spriteData[scoreArr[i]].w * scale, spriteData[scoreArr[i]].h * scale);
+		}
+	}
+	
 	ctx.strokeStyle = 'rgb(255,255,255)'
 	ctx.strokeRect(5,5, canvas.width-10, canvas.height * 0.1 - 10)
 	

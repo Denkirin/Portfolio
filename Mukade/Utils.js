@@ -170,3 +170,21 @@ class Vector
 		return (this.x * vec.x + this.y * vec.y);
 	}
 }
+
+// FUNCTIONS
+
+function splitNumber(num)
+{
+	res = [];
+	
+	while (num/10 >= 1)
+	{
+		res.push(num % 10);
+		num = Math.floor(num/10);
+	}
+	
+	res.push(num);
+	
+	return(res);
+	
+}

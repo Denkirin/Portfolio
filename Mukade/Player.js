@@ -56,7 +56,7 @@ class Node
 		
 		// deg = Math.floor(deg * 180 / Math.PI)
 		// deg = deg % 360
-		// console.log(deg)
+		// //console.log(deg)
 		// let offset = this.normal.dot(new Vector(1,0))/this.normal.magnitude()
 		
 		// if (deg < 90)
@@ -164,6 +164,6 @@ class Player
 											this.nodes[this.nodes.length - 1].pos.y), 
 											this.nodes[this.nodes.length - 1].size, 
 											new Vector(0,-1), this.nodes[this.nodes.length-1].clock+0.5));
-		console.log(this.nodes[this.nodes.length - 1],this.nodes[this.nodes.length - 2])		
+		//console.log(this.nodes[this.nodes.length - 1],this.nodes[this.nodes.length - 2])		
 	}
 }
