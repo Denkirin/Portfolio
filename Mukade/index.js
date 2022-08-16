@@ -16,6 +16,8 @@ let left = false;
 let right = false;
 let split = false;
 
+let pause = true;
+
 let score = 0;
 
 let spritesheet;
@@ -28,18 +30,18 @@ window.onload = init;
 
 spriteData =
 {
-	"MUKADE" 	: { "x" : 1, 	"y" : 0, 	"w" : 128, 	"h" : 23 },
-	"ScoreText" : { "x" : 1, 	"y" : 38, 	"w" : 60, 	"h" : 14 },
-	1 			: { "x" : 1, 	"y" : 24, 	"w" : 12, 	"h" : 14 },
-	2 			: { "x" : 13, 	"y" : 24, 	"w" : 12, 	"h" : 14 },
-	3 			: { "x" : 25, 	"y" : 24, 	"w" : 12, 	"h" : 14 },
-	4 			: { "x" : 37, 	"y" : 24, 	"w" : 12, 	"h" : 14 },
-	5 			: { "x" : 49, 	"y" : 24, 	"w" : 12, 	"h" : 14 },
-	6 			: { "x" : 61, 	"y" : 24, 	"w" : 12, 	"h" : 14 },
-	7 			: { "x" : 73, 	"y" : 24, 	"w" : 12, 	"h" : 14 },
-	8 			: { "x" : 85, 	"y" : 24, 	"w" : 12, 	"h" : 14 },
-	9 			: { "x" : 97, 	"y" : 24, 	"w" : 12, 	"h" : 14 },
-	0 			: { "x" : 109, 	"y" : 24, 	"w" : 12, 	"h" : 14 },
+	"MUKADE" 	: { "x" : 1, 	"y" : 1, 	"w" : 124, 	"h" : 20 },
+	"ScoreText" : { "x" : 1, 	"y" : 35, 	"w" : 58, 	"h" : 10 },
+	1 			: { "x" : 2, 	"y" : 23, 	"w" : 10, 	"h" : 10 },
+	2 			: { "x" : 14, 	"y" : 23, 	"w" : 10, 	"h" : 10 },
+	3 			: { "x" : 26, 	"y" : 23, 	"w" : 10, 	"h" : 10 },
+	4 			: { "x" : 38, 	"y" : 23, 	"w" : 10, 	"h" : 10 },
+	5 			: { "x" : 50, 	"y" : 23, 	"w" : 10, 	"h" : 10 },
+	6 			: { "x" : 62, 	"y" : 23, 	"w" : 10, 	"h" : 10 },
+	7 			: { "x" : 74, 	"y" : 23, 	"w" : 10, 	"h" : 10 },
+	8 			: { "x" : 86, 	"y" : 23, 	"w" : 10, 	"h" : 10 },
+	9 			: { "x" : 98, 	"y" : 23, 	"w" : 10, 	"h" : 10 },
+	0 			: { "x" : 110, 	"y" : 23, 	"w" : 10, 	"h" : 10 },
 }
 
 function init()
@@ -55,8 +57,8 @@ function init()
 	
 	ctx = canvas.getContext('2d');
 	
-	player = new Player(new Vector(100, 100), new Vector(-1,-1), 0, 10,1)
-	enemy = new Player(new Vector(300, 300), new Vector(-1,-1), 0, 10,1)
+	player = new Player(new Vector(canvas.width/2, canvas.height/3 + bound), new Vector(0,1), 0, 10,1)
+	enemy = new Player(new Vector(canvas.width/2, 2*canvas.height/3 + bound), new Vector(0,-1), 0, 10,1)
 	
 	for(let i = 0; i < foodLimit; i++)
 	{
@@ -74,9 +76,10 @@ function gameLoop(timeStamp)
 	
 	const delta = (timeStamp - oldTimestamp) * timeFactor;
 		
-		
-	update(delta);
-	
+	if (!pause)
+	{
+		update(delta);
+	}
 	draw();
 
 	// Keep requesting new frames
@@ -208,25 +211,42 @@ function draw(){
 	
 	let scale = canvas.height * 0.05/spriteData["MUKADE"].h
 	let scoreArr = splitNumber(score);
+	let sbasex = canvas.width - 3 *spriteData["ScoreText"].w * scale;
+	let sbasey = canvas.height * 0.025 +  spriteData["ScoreText"].h * scale/2;
+	let mbasex = 50
+	let mbasey = bound / 2 - spriteData["MUKADE"].h * scale / 2
+	
 	console.log(scoreArr)
 	
-	ctx.drawImage(spritesheet,spriteData["MUKADE"].x,spriteData["MUKADE"].y,spriteData["MUKADE"].w,spriteData["MUKADE"].h,10,10, spriteData["MUKADE"].w * scale, spriteData["MUKADE"].h * scale);
-	ctx.drawImage(spritesheet,spriteData["ScoreText"].x,spriteData["ScoreText"].y,spriteData["ScoreText"].w,spriteData["ScoreText"].h, canvas.width - 3 *spriteData["ScoreText"].w * scale,10, spriteData["ScoreText"].w * scale, spriteData["ScoreText"].h * scale);
+	if (canvas.width < (spriteData["MUKADE"].w + 4 *spriteData["ScoreText"].w) * scale)
+	{
+		bound = scale * (spriteData["MUKADE"].h + spriteData["ScoreText"].h + 2) + 20
+		sbasex = canvas.width/2 - scale * (spriteData["ScoreText"].w + 2 + 8 * spriteData[0].w) / 2;
+		sbasey = 10 + (spriteData["MUKADE"].h + 2) * scale;
+		mbasex = canvas.width / 2 - scale * (spriteData["MUKADE"].w) / 2;
+		mbasey = 10;
+	}
+	
+	ctx.drawImage(spritesheet,spriteData["MUKADE"].x,spriteData["MUKADE"].y,spriteData["MUKADE"].w,spriteData["MUKADE"].h,mbasex,mbasey, spriteData["MUKADE"].w * scale, spriteData["MUKADE"].h * scale);
+	
+	ctx.drawImage(spritesheet,spriteData["ScoreText"].x,spriteData["ScoreText"].y,spriteData["ScoreText"].w,spriteData["ScoreText"].h, sbasex, sbasey, spriteData["ScoreText"].w * scale, spriteData["ScoreText"].h * scale);
+	
+	
 	
 	for (let i = 0; i < 8; i++)
 	{
 		if (scoreArr.length - 1 < i )
 		{
-			ctx.drawImage(spritesheet,spriteData[0].x,spriteData[0].y,spriteData[0].w,spriteData[0].h, canvas.width - 2 *spriteData["ScoreText"].w * scale + scale * spriteData[0].w * (7-i),10, spriteData[0].w * scale, spriteData[0].h * scale);
+			ctx.drawImage(spritesheet,spriteData[0].x,spriteData[0].y,spriteData[0].w,spriteData[0].h, sbasex + scale * (spriteData["ScoreText"].w + 2 + spriteData[0].w * (7-i)),sbasey, spriteData[0].w * scale, spriteData[0].h * scale);
 		}
 		else
 		{
-			ctx.drawImage(spritesheet,spriteData[scoreArr[i]].x,spriteData[scoreArr[i]].y,spriteData[scoreArr[i]].w,spriteData[scoreArr[i]].h, canvas.width - 2 *spriteData["ScoreText"].w * scale  + scale * spriteData[scoreArr[i]].w * (7-i),10, spriteData[scoreArr[i]].w * scale, spriteData[scoreArr[i]].h * scale);
+			ctx.drawImage(spritesheet,spriteData[scoreArr[i]].x,spriteData[scoreArr[i]].y,spriteData[scoreArr[i]].w,spriteData[scoreArr[i]].h, sbasex + scale * (spriteData["ScoreText"].w + 2 + spriteData[scoreArr[i]].w * (7-i)),sbasey, spriteData[scoreArr[i]].w * scale, spriteData[scoreArr[i]].h * scale);
 		}
 	}
 	
 	ctx.strokeStyle = 'rgb(255,255,255)'
-	ctx.strokeRect(5,5, canvas.width-10, canvas.height * 0.1 - 10)
+	ctx.strokeRect(5,5, canvas.width-10, bound - 10)
 	
 	ctx.fillStyle = 'red';
 	ctx.fillRect(coreTarget.x, coreTarget.y, 5, 5);
@@ -268,6 +288,15 @@ addEventListener('keydown',() => {
 	{
 		split = true
 	}
+	
+	if (event.keyCode == 13)
+	{
+		pause = !pause;
+	}
+	else
+	{
+		pause = false;
+	}
 
 })
 
@@ -299,6 +328,7 @@ addEventListener('touchstart',() => {
 	
 	coreTarget.x = event.touches[0].pageX;
 	coreTarget.y = Math.max(event.touches[0].pageY,bound);
+	pause = false;
 	
 })
 

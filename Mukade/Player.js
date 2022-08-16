@@ -2,7 +2,7 @@ class Node
 {
 	constructor(pos, size, normal, iniclock)
 	{
-		this.pos = pos;	
+		this.pos = pos.clone();	
 		this.size = size;
 		this.normal = normal.clone()
 		this.normal.normalize();
@@ -106,10 +106,10 @@ class Player
 		
 		this.nodes = [];
 		
-		this.nodes.push(new Node(pos.clone(), thick, dir,0));
+		this.nodes.push(new Node(pos, thick, dir,0));
 		for (let i = 1; i < iniSize; i++)
 		{
-			this.nodes.push(new Node(new Vector(pos.x, pos.y + i * 2 * thick), thick, this.nodes[i-1].pos.transClone(-pos.x, -pos.y - i * 2 * thick), i*0.5));
+			this.nodes.push(new Node(new Vector(pos.x - this.dir.x * i * 2 * thick, pos.y -  this.dir.y * i * 2 * thick), thick, this.nodes[i-1].pos.transClone(-pos.x, -pos.y - i * 2 * thick), i*0.5));
 		}
 	}
 	
