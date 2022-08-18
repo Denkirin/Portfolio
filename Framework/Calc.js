@@ -31,18 +31,29 @@ class Vector
 	orthogonalize(oth)
 	{
 		let s = this.multiply(oth)
+		
 		this.x -= s * oth.x;
 		this.y -= s * oth.y;
 		this.z -= s * oth.z;
+	
+	}
+	
+	normalize()
+	{
+		let magnitude = Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2));
+		
+		this.x /= magnitude;
+		this.y /= magnitude;
+		this.z /= magnitude;
 	}
 	
 	cross(oth)
 	{
 		let x,y,z;
 		
-		x = this.z * oth.y - this.y * oth.z;
-		y = this.x * oth.z - this.z * oth.x;
-		z = this.y * oth.x - this.x * oth.y;
+		x = this.y * oth.z - this.z * oth.y;
+		y = this.z * oth.x - this.x * oth.z;
+		z = this.x * oth.y - this.y * oth.x;
 		
 		this.x = x;
 		this.y = y;
@@ -54,6 +65,11 @@ class Vector
 		this.x += oth.x;
 		this.y += oth.y;
 		this.z += oth.z;
+	}
+	
+	translate(oth)
+	{
+		
 	}
 	
 	clone()

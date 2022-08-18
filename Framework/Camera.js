@@ -6,22 +6,29 @@ class Camera
 	constructor(pos, front, type)
 	{
 		console.log(front)
-		this.pos = pos;
+		this.pos = pos.clone();
 		this.type = type;
 		
 		this.front = front.clone();
-		this.top = new Vector(0,1,0);
-		this.top.orthogonalize(front);
-		this.side = front.clone();
+		this.front.normalize();
+
+		this.setup();
+	}
+	
+	setup()
+	{
+		this.top = new Vector(0,-1,0);
+		this.top.orthogonalize(this.front);
+		this.top.normalize();
+		this.side = this.front.clone();
 		this.side.cross(this.top);
+		this.side.normalize();
 		
-		console.log(this.front)
-		console.log(this.top)
-		console.log(this.side)
-		
-		this.basis = new Matrix([[this.front.x, this.front.y, this.front.z],
-								 [this.top.x,	this.top.y,	  this.top.z],
-								 [this.side.x,	this.side.y,  this.side.z]]);
+		this.basis = new Matrix([[this.side.x, 	this.side.y,   this.side.z],
+								 [this.top.x,	this.top.y,    this.top.z],
+								 [this.front.x,	this.front.y,  this.front.z]]);
+								 
+								 
 	}
 	
 	draw(ctx)
@@ -35,16 +42,27 @@ class Camera
 		let p7 = new Vector(200,100,200);
 		let p8 = new Vector(100,100,200);
 		
+		let pivot = new Vector(150,150,150);
+		
 		let dots = [p1,p2,p3,p4,p5,p6,p7,p8];
 		
 		ctx.fillStyle = "white";
 	
 		dots.forEach(p=>
 		{
-			p.sum(this.pos.multiply(-1));
+			// p.sum(new Vector(-canvas.width/2, -canvas.height/2, 0)); 
+			p.sum(pivot.multiply(-1));
 			p = p.multiply(this.basis);
-			ctx.fillRect(canvas.width / 2 + p.x, canvas.height / 2 + p.y, 10, 10);
+			p.sum(this.pos);
+			ctx.fillRect(p.x, p.y, 10, 10);
+			// console.log(p)
 		});
+	}
+	
+	move(npos)
+	{
+		this.pos = npos.clone();
+		this.setup();
 	}
 	
 }

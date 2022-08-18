@@ -14,7 +14,7 @@ function init(){
 	canvas.height = innerHeight;
 	
 	ctx = canvas.getContext('2d');
-	myCamera = new Camera(new Vector(150,150,200), new Vector(0,0,1), CAM_ORTHO);
+	myCamera = new Camera(new Vector(150,150,50), new Vector(-0.1,-0.1,1), CAM_ORTHO);
 	
 	// Start the first frame request
 	window.requestAnimationFrame(gameLoop);
@@ -41,7 +41,9 @@ function gameLoop(timeStamp){
 
 function update(delta)
 {
-	
+	let npos = myCamera.pos.clone();
+	npos.sum(new Vector(1, 0, 0));
+	myCamera.move(npos);
 }
 
 function draw(){
