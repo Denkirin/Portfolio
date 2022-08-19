@@ -38,13 +38,18 @@ class Vector
 	
 	}
 	
+	magnitude()
+	{
+		return( Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2)));
+	}
+	
 	normalize()
 	{
-		let magnitude = Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2));
+		let mag = this.magnitude();
 		
-		this.x /= magnitude;
-		this.y /= magnitude;
-		this.z /= magnitude;
+		this.x /= mag;
+		this.y /= mag;
+		this.z /= mag;
 	}
 	
 	cross(oth)

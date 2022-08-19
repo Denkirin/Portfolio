@@ -1,6 +1,8 @@
 let canvas;
 let ctx;
 
+const timeFactor = 1/1000;
+
 let oldTimestamp = 0;
 
 let myCamera;
@@ -14,7 +16,10 @@ function init(){
 	canvas.height = innerHeight;
 	
 	ctx = canvas.getContext('2d');
-	myCamera = new Camera(new Vector(150,150,50), new Vector(-0.1,-0.1,1), CAM_ORTHO);
+	myCamera = new Camera(new Vector(0,0,1), new Vector(-0.0,-0.0,-1), CAM_ORTHO);
+	myScene = new Scene();
+	
+	myScene.push(new Body());
 	
 	// Start the first frame request
 	window.requestAnimationFrame(gameLoop);
@@ -41,15 +46,17 @@ function gameLoop(timeStamp){
 
 function update(delta)
 {
-	let npos = myCamera.pos.clone();
-	npos.sum(new Vector(1, 0, 0));
+	// let npos = new Vector(1 + 0 * Math.cos(timeFactor * oldTimestamp), 0, 1 + 0 * Math.sin(timeFactor * oldTimestamp));
+	let npos = new Vector(0.1+myCamera.pos.x, myCamera.pos.y, myCamera.pos.z);
 	myCamera.move(npos);
+	myCamera.pointTo(new Vector(0,0,0));
 }
 
 function draw(){
 	ctx.fillStyle = "black";
 	ctx.fillRect(0,0,canvas.width,canvas.height);
 	
+	myCamera.render(myScene);
 	myCamera.draw(ctx);
 }
 

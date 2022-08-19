@@ -1,3 +1,29 @@
+class Point
+{
+	constructor(pos)
+	{
+		this.pos = pos.clone();
+	}
+	
+	lineDistance(l)
+	{
+		
+	}
+	
+	planeDistance(p)
+	{
+		let q = this.pos.clone();
+		
+		q.sum(p.origin.pos.multiply(-1));
+		
+		return(p.normal.multiply(q));
+	}
+	
+	clone()
+	{
+		return(new Point(this.pos.clone()));
+	}
+}
 
 class Line
 {
@@ -11,10 +37,10 @@ class Line
 
 class Plane
 {
-	constructor(pos, dir)
+	constructor(origin, normal)
 	{
-		this.pos = pos;
-		this.dir = dir;
-		this.off = pos.dot(dir);
+		this.origin = origin.clone();
+		this.normal = normal.clone();
+		this.off = origin.pos.multiply(normal);
 	}
 }
